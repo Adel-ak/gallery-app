@@ -1,17 +1,19 @@
 import React,{ Component } from 'react';
-import { SearchForm } from './components/SearchForm';
+import SearchForm from './components/SearchForm';
+import Container from './components/Container';
 import { Nav } from './components/Nav';
-import { PhotoContainer } from './components/PhotoContainer';
+import { Error } from './components/404';
 import { BrowserRouter as Router,Route,Switch} from "react-router-dom";
 import { endPoint } from './components/config'
 import './index.css';
 
 class App extends Component {
 
-
   state = {
     photos: [],
-    title: 'Loading...',
+    isLoading: false,
+    title: '',
+    search: '',
   }
 
   handleResponse = (response) => {
@@ -25,22 +27,22 @@ class App extends Component {
       })
   }
 
-  componentDidMount = () => {
-    this.getImages()
-  }
-
-  getImages = (tags) => {
+  getImages = (tag) => {
 
     this.setState({
-      title:"Loading...."
+      isLoaded: false
     });
-
+  
+    const searchTag = tag;
+    let title;
+  
     let url;
-    if(tags){
-      url =  `${endPoint}&method=flickr.photos.search&tags=` + tags;
+    if(searchTag !== undefined){
+      url =  `${endPoint}&method=flickr.photos.search&tags=` + searchTag;
+      title = searchTag;
     } else {
       url = `${endPoint}&method=flickr.photos.getRecent`;
-      tags = 'Recent'
+      title = 'Recent'
     }
 
     fetch(url)
@@ -48,7 +50,8 @@ class App extends Component {
     .then(data => {
       this.setState({
         photos: data.photos.photo,
-        title:tags
+        title: title,
+        isLoaded: true
       });
     })
     .catch(error => console.log('Error is', error));
@@ -57,22 +60,30 @@ class App extends Component {
   render(){
     return (
       <Router>
-        <div className="App">
-            <SearchForm getImages={this.getImages} />
+        <SearchForm getImages={this.getImages} />
             <Nav getImages={this.getImages} />
-            <Switch>
-              <Route exact path="/" render={() =>
-              <PhotoContainer photos={this.state.photos} title={this.state.title} />
-                } />
-              <Route path="/search/:tag" render={() => 
-              <PhotoContainer photos={this.state.photos} title={this.state.title} />
-              }/> 
-            </Switch>
-          </div>
+          <Switch>
+          <Route exact path="/" render={()=> (
+            <Container
+            getImages={this.getImages}
+            isLoaded={this.state.isLoaded}
+            photos={this.state.photos} 
+            title={this.state.title} 
+            />
+          )} />
+          <Route exact path="/search/:tag" render={()=> (
+            <Container
+            getImages={this.getImages}
+            isLoaded={this.state.isLoaded}
+            photos={this.state.photos} 
+            title={this.state.title} 
+            />
+          )} />
+          <Route component={Error}/>
+        </Switch>
       </Router>
     );
   }
-  
 }
 
 export default App;

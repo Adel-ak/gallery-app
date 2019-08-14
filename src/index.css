@@ -123,3 +123,13 @@ input {
     width: 100px;
   }
 }
+
+/*Error page style**********/
+
+#home-link{
+  display: inline-block;
+  color: white;
+  background: #275270;
+  padding: 10px;
+  margin-top: 10px;
+}

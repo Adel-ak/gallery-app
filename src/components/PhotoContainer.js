@@ -2,7 +2,7 @@ import React,{ Component } from 'react';
 import { PhotoList } from './PhotoList';
 import { NoResults } from './NoResults'
 
-export class PhotoContainer extends Component {
+ class PhotoContainer extends Component {
     
     showResults = () => {
         if(this.props.photos.length === 0){
@@ -12,10 +12,10 @@ export class PhotoContainer extends Component {
                 <PhotoList key={imgs.id} data={imgs} />
             ));
         }
+
     }
 
     render(){
-        {console.log(this.props)}
         return(
         <div className="photo-container">
             <h2>{this.props.title}</h2>
@@ -23,6 +23,7 @@ export class PhotoContainer extends Component {
                 {this.showResults()}
             </ul>
         </div>);
-    }
-    
+    } 
 }
+
+export default PhotoContainer;
