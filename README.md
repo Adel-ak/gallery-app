@@ -15,7 +15,7 @@ endPoint should have the value of flickrs api url (url given below)
 
 ```
 const apiKey = 'the key you obtained should be here';
-const endPoint = `https://www.flickr.com/services/rest/${apiKey}&format=json&nojsoncallback=1&per_page=24`;
+const endPoint = `https://www.flickr.com/services/rest/?api_key=${apiKey}&format=json&nojsoncallback=1&per_page=24`;
 ```
 
 3. Export the variables
