@@ -4,8 +4,11 @@ import Container from './components/Container';
 import { Nav } from './components/Nav';
 import { Error } from './components/404';
 import { BrowserRouter as Router,Route,Switch} from "react-router-dom";
-import { endPoint } from './components/config'
 import './index.css';
+
+const apiKey = '485d4dc0b0bda15539f537770b92b13a';
+const endPoint = `https://www.flickr.com/services/rest/?api_key=${apiKey}&format=json&nojsoncallback=1&per_page=24`;
+
 
 class App extends Component {
 
